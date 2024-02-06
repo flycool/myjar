@@ -15,7 +15,7 @@ const val bookmarkFilePath =
     "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
 
 //const val mdFilePath = "G:\\resource\\桌面\\test\\bookmark.md"
-const val mdFilePath = "F:\\obsidianwork\\android\\bookmark.md"
+const val mdFilePath = "F:\\obsidianwork\\all\\android\\bookmark.md"
 
 fun writeToMd() {
     val bookmark = parserBookmark()
