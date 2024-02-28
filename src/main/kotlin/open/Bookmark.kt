@@ -35,7 +35,14 @@ data class Folder(
 )
 
 /**
+ * Chrome 书签时间值是 1601-01-01T00:00:00 纪元的微秒
+ * val localDateTime = LocalDateTime.parse("1601-01-01T00:00:00")
+ * val toEpochMillis = localDateTime.toEpochSecond(ZoneOffset.UTC) * 1000
+ * // toEpochMillis = 11644473600000
+ *  Date(date_added/1000 - toEpochMillis)
+ *
  * "date_added": "13314533977559961",
+ *
 "   guid": "ed9018f2-061b-4987-a9ae-aa00a684b403",
 "   id": "2446",
 "   name": "love n work E05.221202 韩tv中字_哔哩哔哩_bilibili",

@@ -5,6 +5,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun main(args: Array<String>) {
@@ -73,10 +75,27 @@ fun recurseChildren(sb: StringBuilder, folder: Folder) {
 
 }
 
+private const val epochMillis = 11644473600000
+
 fun StringBuilder.link(c: Folder): StringBuilder =
     this.append("[").append(c.name).append("]")
         .append("(").append(c.url).append(")")
+        .append(" ")
+        .append(chromeTimeValueToDate(c.date_added))
         .append("\r\n")
+
+private fun chromeTimeValueToDate(dateFlag:String):String {
+    val l:Long= dateFlag.toLong()
+    val actualDataLong = l/1000 - epochMillis
+    return  actualDataLong.toDate()
+}
+
+private fun Long.toDate() :String {
+    val date = Date(this)
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    val result = dateFormat.format(date)
+    return result
+}
 
 fun StringBuilder.title(title: String, num: Int): StringBuilder {
     var s = ""
