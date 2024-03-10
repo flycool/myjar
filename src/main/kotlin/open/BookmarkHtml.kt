@@ -3,26 +3,22 @@ package open
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 
-//fun main() {
-//    BookMarkHtml.createHtml(folderData)
-//}
-
-class BookmarkHtml(private val folder: Folder):BookmarkJson {
+class BookmarkHtml : BookmarkJson {
 
     private val htmlFilePath = "F:\\obsidianwork\\all\\android\\bookmarks.html"
 
-    override fun parse(): Pair<String, String> {
-        return createHtml(folder)
+    override fun parse(folder: Folder, result: (html: String, filePath: String) -> Unit) {
+        val html = createHtml(folder)
+        result(html, htmlFilePath)
     }
 
-    private fun createHtml(folder: Folder): Pair<String, String> {
+    private fun createHtml(folder: Folder): String {
         val html = createHTML().html {
             createHead()
             createBody(folder)
         }
-        val replace = html.replace("h3", "H3")
-        //println(replace)
-        return Pair(replace, htmlFilePath)
+        val htmlResult = html.replace("h3", "H3")
+        return htmlResult
     }
 
     private fun HTML.createHead() {

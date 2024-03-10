@@ -9,37 +9,31 @@ import java.io.OutputStreamWriter
 
 fun main(args: Array<String>) {
 
-    writeToFile { folder ->
-        BookmarkHtml(folder).parse()
-    }
+    writeToFile(BookmarkHtml())
+//    writeToFile(BookmarkMD())
 
-//    writeToFile {  folder ->
-//        BookmarkMD(folder).parse()
-//    }
 }
 
 const val bookmarkFilePath =
     "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
 
 fun writeToFile(
-    doWork: (Folder) -> Pair<String, String>
+    parser: BookmarkJson,
 ) {
     val bookmark = parserBookmark()
     val folder = bookmark.roots.bookmark_bar
 
-    val (html, filePath) = doWork(folder)
+    parser.parse(folder) { html, filePath ->
+        val file = File(filePath)
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        val bufferWriter = OutputStreamWriter(FileOutputStream(file), "utf-8")
 
-    val file = File(filePath)
-    if (!file.exists()) {
-        file.createNewFile()
+        bufferWriter.write(html)
+        bufferWriter.close()
     }
-    val bufferWriter = OutputStreamWriter(FileOutputStream(file), "utf-8")
-
-    bufferWriter.write(html)
-    bufferWriter.close()
-
 }
-
 
 private fun parserBookmark(): Bookmark {
     val content = getJsonContentFromFile(bookmarkFilePath)

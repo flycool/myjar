@@ -1,5 +1,8 @@
 package open
 
 interface BookmarkJson {
-    fun parse(): Pair<String, String>
+    fun parse(
+        folder: Folder,
+        result: (html: String, filePath: String) -> Unit
+    )
 }

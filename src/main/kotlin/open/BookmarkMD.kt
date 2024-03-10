@@ -3,16 +3,14 @@ package open
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BookmarkMD(
-    private val folder: Folder
-) : BookmarkJson {
+class BookmarkMD : BookmarkJson {
 
     private val mdFilePath = "F:\\obsidianwork\\all\\android\\bookmark.md"
 
-    override fun parse(): Pair<String, String> {
+    override fun parse(folder: Folder, result: (html: String, filePath: String) -> Unit) {
         val sb = StringBuilder()
         recurseChildren(sb, folder)
-        return Pair(sb.toString(), mdFilePath)
+        result(sb.toString(), mdFilePath)
     }
 
     private var c = 0
