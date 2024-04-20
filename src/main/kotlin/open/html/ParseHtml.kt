@@ -10,6 +10,8 @@ import org.openqa.selenium.By.ByTagName
 import org.openqa.selenium.By.className
 import org.openqa.selenium.chrome.ChromeDriver
 import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 import java.net.URL
 import java.util.HashSet
 import javax.net.ssl.HttpsURLConnection
@@ -22,10 +24,22 @@ fun main() {
 //        "https://proandroiddev.com/jetpack-compose-ktor-and-koin-di-unlocking-mad-skills-05b9f28b4cd8"
 
     val html = seleniumGetPageHtml(url)
-    parseMedium(html) { error ->
+    val content = parseMedium(html) { error ->
         println("parse error:===$error")
     }
+    val desPath = "G:\\resource\\桌面\\medium.md"
+    writeToFile(content, desPath)
+}
 
+fun writeToFile(content: String, path: String): String {
+    val file = File(path)
+    if (!file.exists()) {
+        file.createNewFile()
+    }
+    OutputStreamWriter(FileOutputStream(file), "utf-8").use {
+        it.write(content)
+    }
+    return path
 }
 
 fun parseMedium(html: String, error: (String?) -> Unit): String {
@@ -184,7 +198,7 @@ fun parseMedium(html: String, error: (String?) -> Unit): String {
             }
         }
         driver.quit()
-        println(sb.toString())
+        //println(sb.toString())
         return sb.toString()
     } catch (e: Exception) {
         error(e.message)
